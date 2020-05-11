@@ -50,3 +50,16 @@ resource "aws_lb_listener" "front_end" {
     target_group_arn = aws_lb_target_group.assignment2.arn
   }
 }
+
+resource "aws_db_instance" "assignment2" {
+  allocated_storage = 50
+  max_allocated_storage = 100
+  storage_type = "gp2"
+  engine : "postgres"
+  engine_version = "9.5"
+  instance_class = "db.t2.micro"
+  name = "assignment2db"
+  username = "postgres"
+  password = "postgres"
+  parameter_group_name = "default.mysql5.7"
+}
