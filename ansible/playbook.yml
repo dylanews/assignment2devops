@@ -1,4 +1,42 @@
-- name: Deploy Application
-  hosts: all
-  vars:
-  tasks: 
+tasks:
+  - name: demo of ansible capability and scripting
+    hosts: all
+    vars:
+      file_location: "/var/www/html/index.html"
+
+  - name: ensure apache is installed
+    become: yes
+    package:
+      name: httpd
+      state: started
+
+  - name: ensure apache is running
+    become: yes
+    package:
+      name: httpd
+      state: present
+      enabled: yes
+
+  - name: add test page for website
+    become: yes
+    shell:
+      cmd: "echo "hello world" > /var/www/html/index.html"
+    
+  - name: ensure index.hml is deployed according to template
+    become: yes
+    vars:
+      name: Tom
+      title: Tutorial week 9
+    template:
+      dest: "{{ file_location }}"
+      src: templates/index.html.tpl
+
+  - name: Deploy Application
+    hosts: all
+    vars:
+    tasks:
+
+  - name: generate inventory file
+    hosts: all
+    vars:
+    tasks:

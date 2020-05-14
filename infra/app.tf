@@ -3,13 +3,12 @@ resource "aws_key_pair" "deployer" {
   public_key = var.public_key
 }
 
-resource "aws_launch_configuration" "assignment2" {
-  name            = "web_config"
-  image_id        = var.ami_id
+resource "aws_instance" "assignment2" {
+  ami             = var.ami_id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.allow_http_ssh.id]
-
-  key_name = aws_key_pair.deployer.key_name
+  key_name        = aws_key_pair.deployer.key_name
+  subnet_id       = aws_subnet.private_az1.id
 }
 
 resource "aws_lb_target_group" "assignment2" {
@@ -17,15 +16,6 @@ resource "aws_lb_target_group" "assignment2" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
-}
-
-resource "aws_autoscaling_group" "assignment2" {
-  name                 = "terraform-asg-assignment2"
-  launch_configuration = aws_launch_configuration.assignment2.name
-  min_size             = 1
-  max_size             = 1
-  vpc_zone_identifier  = [aws_subnet.private_az1.id, aws_subnet.private_az2.id, aws_subnet.private_az3.id]
-  target_group_arns    = [aws_lb_target_group.assignment2.arn]
 }
 
 resource "aws_lb" "assignment2" {
@@ -52,14 +42,20 @@ resource "aws_lb_listener" "front_end" {
 }
 
 resource "aws_db_instance" "assignment2" {
-  allocated_storage = 50
-  max_allocated_storage = 100
-  storage_type = "gp2"
-  engine : "postgres"
-  engine_version = "9.5"
-  instance_class = "db.t2.micro"
-  name = "assignment2db"
-  username = "postgres"
-  password = "postgres"
-  parameter_group_name = "default.mysql5.7"
+  instance_class         = "db.t2.micro"
+  engine                 = "postgres"
+  engine_version         = "9.6.16"
+  storage_type           = "gp2"
+  allocated_storage      = 20
+  name                   = "assignment2"
+  username               = "postgres"
+  password               = "postgres123"
+  apply_immediately      = "true"
+  db_subnet_group_name   = aws_db_subnet_group.default.name
+  vpc_security_group_ids = [aws_security_group.assignment2db.id]
+}
+
+resource "aws_db_subnet_group" "default" {
+  name       = "assignment2dbsubnet"
+  subnet_ids = [aws_subnet.data_az1.id, aws_subnet.data_az2.id, aws_subnet.data_az3.id]
 }
