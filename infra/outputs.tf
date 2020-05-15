@@ -10,10 +10,10 @@ output "lb_endpoint" {
 #   value = 
 # }
 
-# output "db_user" {
-#   value = 
-# }
+output "db_user" {
+  value = aws_db_instance.assignment2.username
+}
 
-# output "db_pass" {
-#   value = 
-# }
+output "db_pass" {
+  value = aws_db_instance.assignment2.password
+}
