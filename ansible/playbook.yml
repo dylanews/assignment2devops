@@ -1,31 +1,37 @@
-- name: Deploy Application
-    hosts: all
-    vars:
-    tasks:
-      - name: download and unarchive techtestservian app
-        become: yes
-        unarchived:
-          src: https://github.com/servian/TechTestApp/releases/download/v.0.6.0/TechTestApp_v.0.6.0_darwin.zip
-          dest: /usr/local/bin
-          remote_src: yes
+- name: Deploy application
+  hosts: all
+  vars:
+  tasks:
+    - name: download and unarchive app
+      become: yes
+      unarchived:
+        src: https://github.com/servian/TechTestApp/releases/download/v.0.6.0/TechTestApp_v.0.6.0_darwin.zip
+        dest: /usr/local/bin
+        remote_src: yes
 
-      - name: install and run
-        become: yes
-        shell: 
-          cmd: cd /usr/local/bin/dist
-              ./TechTestApp
+    - name: run app
+      become: yes
+      shell:
+        cmd: cd /usr/local/bin/dist
+          ./TechTestApp
 
-      - name: run template
-        file:
-        
-      - name: run app config
-        file:
-          path:
-          state: started
-          enabled: yes
-        
-      - name: run and serve app
-        become: yes
-        shell:
-          cmd:
-              ./TechTestApp serve
+    - name: configure conf.toml database
+      script: database.sh
+
+    - name: run template for systemd
+      file:
+        path: /usr/lib/systemd/system/systemd.service
+        state: started
+        enabled: yes
+
+    - name: updatedb techtest
+      become: yes
+      shell:
+        cmd: cd /usr/local/bin/dist
+          ./TechTestApp -updatedb
+
+    - name: run and serve app
+      become: yes
+      shell:
+        cmd: cd /usr/local/bin/dist
+          ./TechTestApp serve

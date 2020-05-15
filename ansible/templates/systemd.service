@@ -1,0 +1,13 @@
+[Unit]
+Description=assignment2
+
+[Service]
+WorkingDirectory=/usr/ec2-user/dist
+Type=simple
+ExecStart=/usr/ec2-user/dist/TechTestApp serve
+Restart=always
+StartLimitInterval=90
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

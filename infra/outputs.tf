@@ -6,9 +6,9 @@ output "lb_endpoint" {
   value = aws_lb.assignment2.dns_name
 }
 
-# output "db_endpoint" {
-#   value = 
-# }
+output "db_endpoint" {
+  value = aws_db_instance.assignment2.endpoint
+}
 
 output "db_user" {
   value = aws_db_instance.assignment2.username
