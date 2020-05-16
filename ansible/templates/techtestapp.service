@@ -1,10 +1,12 @@
 [Unit]
 Description=assignment2
+After=network.target
 
 [Service]
-WorkingDirectory=/usr/ec2-user/dist
+WorkingDirectory=/etc/app/
 Type=simple
-ExecStart=/usr/ec2-user/dist/TechTestApp serve
+User=root
+ExecStart=/etc/app/TechTestApp serve
 Restart=always
 StartLimitInterval=90
 StartLimitBurst=3

@@ -1,37 +1,44 @@
-- name: Deploy application
+- name: Deploy Application
   hosts: all
   vars:
   tasks:
-    - name: download and unarchive app
+    - name: Download TechTestApp
       become: yes
-      unarchived:
-        src: https://github.com/servian/TechTestApp/releases/download/v.0.6.0/TechTestApp_v.0.6.0_darwin.zip
+      unarchive:
+        src: https://github.com/servian/TechTestApp/releases/download/v.0.6.0/TechTestApp_v.0.6.0_linux64.zip
         dest: /usr/local/bin
         remote_src: yes
 
-    - name: run app
+    - name: Move the App to /etc/app
       become: yes
-      shell:
-        cmd: cd /usr/local/bin/dist
-          ./TechTestApp
+      shell: |
+        mkdir /etc/app
+        cp -r /usr/local/bin/dist/* /etc/app/
 
-    - name: configure conf.toml database
+    - name: generate conf.toml
       script: database.sh
 
-    - name: run template for systemd
-      file:
-        path: /usr/lib/systemd/system/systemd.service
+    - name: copy conf.toml into etc/app file
+      become: yes
+      copy:
+        src: conf.toml
+        dest: /etc/app/
+
+    - name: upload service file
+      become: yes
+      template:
+        src: templates/techtestapp.service
+        dest: "/usr/lib/systemd/system/techtestapp.service"
+
+    - name: ensure systemd is running
+      become: yes
+      service:
+        name: techtestapp
         state: started
         enabled: yes
 
-    - name: updatedb techtest
+    - name: automate db deployment
       become: yes
-      shell:
-        cmd: cd /usr/local/bin/dist
-          ./TechTestApp -updatedb
-
-    - name: run and serve app
-      become: yes
-      shell:
-        cmd: cd /usr/local/bin/dist
-          ./TechTestApp serve
+      shell: ./TechTestApp updatedb -s
+      args:
+        chdir: /etc/app

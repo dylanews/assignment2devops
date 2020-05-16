@@ -17,3 +17,15 @@ output "db_user" {
 output "db_pass" {
   value = aws_db_instance.assignment2.password
 }
+
+output "db_name" {
+  value = aws_db_instance.assignment2.name
+}
+
+output "db_port" {
+  value = aws_db_instance.assignment2.port
+}
+
+output "db_address" {
+  value = aws_db_instance.assignment2.address
+}
