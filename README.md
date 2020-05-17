@@ -2,6 +2,10 @@
 
 ## dependencies
 
+Terraform
+
+Ansible
+
 ## deploy instructions
 
 ## cleanup instructions

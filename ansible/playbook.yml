@@ -2,14 +2,14 @@
   hosts: all
   vars:
   tasks:
-    - name: Download TechTestApp
+    - name: download tech test app
       become: yes
       unarchive:
         src: https://github.com/servian/TechTestApp/releases/download/v.0.6.0/TechTestApp_v.0.6.0_linux64.zip
         dest: /usr/local/bin
         remote_src: yes
 
-    - name: Move the App to /etc/app
+    - name: move downloaded app file to etc/app
       become: yes
       shell: |
         mkdir /etc/app
@@ -24,20 +24,20 @@
         src: conf.toml
         dest: /etc/app/
 
-    - name: upload service file
+    - name: upload service file into ec2
       become: yes
       template:
         src: templates/techtestapp.service
         dest: "/usr/lib/systemd/system/techtestapp.service"
 
-    - name: ensure systemd is running
+    - name: ensure systemd is running and working
       become: yes
       service:
         name: techtestapp
         state: started
         enabled: yes
 
-    - name: automate db deployment
+    - name: run updatedb in app
       become: yes
       shell: ./TechTestApp updatedb -s
       args:
