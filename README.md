@@ -24,6 +24,7 @@ AWS Educate:
 
 Github:
 - A github repository is used for submission/sharing of this application. Therefore, it is highly recommended to clone this application and to share/configure through github.
+
 ## deploy instructions
 - In this deployment application assignment, the 2 main languages/softwares that has been used is terraform and ansible.
 Terraform : Terraform is an open-source infrastructure code software tool created by Hashicorp. It allows usedrs to define datacenter infrastructures using high-level configuration language.
@@ -31,7 +32,8 @@ Ansible: Ansible is an open-source software-provisioning, configuration manageme
 
 Terraform: In order for the application to be abled to be deployed or used in the ec2 instance, we have to create some datacenter configuration through terraform. As mentioned below would be the configurations that we have created.
 
-VPCs - VPC is a virutal private cloud that is allocated in a public cloud environment that shares on-demand computing resources between organisations.
+Datacenter configurations that has been created in AWS:
+VPCs - VPC is a virtual private cloud that is allocated in a public cloud environment that shares on-demand computing resources between organisations.
 Load Balancers - Load balancers are configurations that allows the distribution of tasks over a set of resources.
 Load balancer listeners - a Load balancer listener checks for connection requests between the protocol and port that has been configured.
 Target groups -  a target group is used to specify the location and target route requests of registered targets.
@@ -42,7 +44,7 @@ Database - a db instance is an isolated database environment in the cloud. for t
 s3 buckets - An s3 bucket is a public cloud storage resource. 
 
 Set up :
-1. Log into to your AWS educate clasroom account and go to a classtoom that contains credits.
+1. Log into to your AWS educate clasroom account and go to a classroom that contains credits.
 2. When a new window appears, click on account details to access your CLI credentials.
 3. Press the show button.
 ![cli credentials](https://github.com/RMIT-COSC2759-SDO/assessment2-student-s3699661/blob/master/clicredentials.PNG)
@@ -65,10 +67,16 @@ Ansible:
 1. After everything in terraform is running properly, you will have to open up the ansible file in terminal.
 2. You'd then have to copy your private key (id_rsa.pem file) into the ansible folder in order for it to be able to run.
 3. Next, you can run the run_ansible.sh shell script folder to ensure that everything is running.
-![ansiblescreenshot](https://github.com/RMIT-COSC2759-SDO/assessment2-student-s3699661/blob/master/ansiblescreenshot.PNG)
+![ansiblescreenshot](https://github.com/RMIT-COSC2759-SDO/assessment2-student-s3699661/blob/master/ansiblescreenshot.png)
 4. The files would then be deployed/generated and uploaded into the ec2 instances allowing the website to run.
 5. If you'd like to view the website, kindly take the public IP that would be displayed in the terminal and copy it into a browser.
 6. If you'd like to access the ec2 instance that is running you'd be able to by using the command "ssh -i (id_rsa.pem private key) ec2-user@(public ip)"
+
+How does the application run:
+1. The terraform codes would firstly configure and generate the required datacenter configurations.
+2. The generated security groups, vpc, instance, subnets, load balancers, database and buckets would then work together and allow access through configuration for the user to access the application through a public ip.
+3. The ansible script would then be used to run the ec2 instance and to upload and generate the required files for the configuration of the databases and systemd service configuration.
+4. Once everything is running and set-up. You'd then be able to access the application through the public ip.
 
 ## cleanup instructions
 A make file has been created to ease the applying and destroying process of terraform for this application.
