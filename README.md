@@ -41,7 +41,7 @@ Datacenter configurations that has been created in AWS:
 - Subnets - a subnet is a logical subdivision of an ip network. In this project, there are 9 subnets involved. There are 3 private subnets, 3 public subnets and 3 data subnets.
 - Instances - A instance is virtual server. In this applcation, we are deploying an ec2 instance for the techtestapp.
 - Database - a db instance is an isolated database environment in the cloud. for the deployment of the techtestapp, we have used postgres for the ec2 database deployment.
-- s3 buckets - An s3 bucket is a public cloud storage resource. 
+- s3 buckets - An s3 bucket is a public cloud storage resource that allows files to be stored.
 
 Set up :
 1. Log into to your AWS educate clasroom account and go to a classroom that contains credits.
@@ -77,6 +77,8 @@ How does the application run:
 2. The generated security groups, vpc, instance, subnets, load balancers, database and buckets would then work together and allow access through configuration for the user to access the application through a public ip.
 3. The ansible script would then be used to run the ec2 instance and to upload and generate the required files for the configuration of the databases and systemd service configuration.
 4. Once everything is running and set-up. You'd then be able to access the application through the public ip.
+5. In the application, a systemd.service file has also been uploaded and added into the system file. The systemd file is used to restart the application when it reboots. In the application, there is also an interval. After 3 times of restarting it will time out if an error has occured.
+6. Without any configuration, the aws terraform uses a local backend to save the files. However, an additional s3 bucket and dynamodb has been added to store backend remote lock attributes. Therefore, it will make the application to be in its optimal state.
 
 ## cleanup instructions
 A make file has been created to ease the applying and destroying process of terraform for this application.
