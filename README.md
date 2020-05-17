@@ -33,15 +33,15 @@ Ansible: Ansible is an open-source software-provisioning, configuration manageme
 Terraform: In order for the application to be abled to be deployed or used in the ec2 instance, we have to create some datacenter configuration through terraform. As mentioned below would be the configurations that we have created.
 
 Datacenter configurations that has been created in AWS:
-VPCs - VPC is a virtual private cloud that is allocated in a public cloud environment that shares on-demand computing resources between organisations.
-Load Balancers - Load balancers are configurations that allows the distribution of tasks over a set of resources.
-Load balancer listeners - a Load balancer listener checks for connection requests between the protocol and port that has been configured.
-Target groups -  a target group is used to specify the location and target route requests of registered targets.
-Security groups - a security group acts as a virtual firewall for instance between incoming and outgoing traffic. It controls the inbound and outbound rules in your instance.
-Subnets - a subnet is a logical subdivision of an ip network. In this project, there are 9 subnets involved. There are 3 private subnets, 3 public subnets and 3 data subnets.
-Instances - A instance is virtual server. In this applcation, we are deploying an ec2 instance for the techtestapp.
-Database - a db instance is an isolated database environment in the cloud. for the deployment of the techtestapp, we have used postgres for the ec2 database deployment.
-s3 buckets - An s3 bucket is a public cloud storage resource. 
+- VPCs - VPC is a virtual private cloud that is allocated in a public cloud environment that shares on-demand computing resources between organisations.
+- Load Balancers - Load balancers are configurations that allows the distribution of tasks over a set of resources.
+- Load balancer listeners - a Load balancer listener checks for connection requests between the protocol and port that has been configured.
+- Target groups -  a target group is used to specify the location and target route requests of registered targets.
+- Security groups - a security group acts as a virtual firewall for instance between incoming and outgoing traffic. It controls the inbound and outbound rules in your instance.
+- Subnets - a subnet is a logical subdivision of an ip network. In this project, there are 9 subnets involved. There are 3 private subnets, 3 public subnets and 3 data subnets.
+- Instances - A instance is virtual server. In this applcation, we are deploying an ec2 instance for the techtestapp.
+- Database - a db instance is an isolated database environment in the cloud. for the deployment of the techtestapp, we have used postgres for the ec2 database deployment.
+- s3 buckets - An s3 bucket is a public cloud storage resource. 
 
 Set up :
 1. Log into to your AWS educate clasroom account and go to a classroom that contains credits.
@@ -54,7 +54,7 @@ Set up :
 6. This would allow the terminal to run the script codes to soruce your cli credentials.
 
 Deployment instructions for the application:
-Before the deployment - user have to go to terminal and apply ssh-keygen to generate private and public keys for this application. The public and private keys would be able to be found in a .ssh hidden folder in your home file.
+- Before the deployment - user have to go to terminal and apply ssh-keygen to generate private and public keys for this application. The public and private keys would be able to be found in a .ssh hidden folder in your home file.
 
 Terraform : 
 1. First, you have to open up the infra file in terminal.
@@ -90,3 +90,18 @@ terraform destroy --auto-approve
 
 the make up function allows terraform to create the required vpc,load balancers,target groups,load listeners,security groups,subnets,instances and database for the application.
 the make down function destroys all the created vpc,load balancers,target groups,load listeners,security groups,subnets,instances,s3 buckets,  and database for the application.
+
+References :
+https://www.terraform.io/docs/backends/types/s3.html
+https://medium.com/@jessgreb01/how-to-terraform-locking-state-in-s3-2dc9a5665cb6
+https://www.terraform.io/docs/backends/types/s3.html
+https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html
+https://www.terraform.io/docs/providers/aws/r/instance.html
+https://www.terraform.io/docs/providers/aws/r/db_instance.html
+https://www.terraform.io/docs/providers/aws/r/db_subnet_group.html
+https://docs.ansible.com/ansible/latest/modules/systemd_module.html
+https://docs.ansible.com/ansible/latest/modules/service_module.html
+https://docs.ansible.com/ansible/latest/modules/list_of_database_modules.html
+https://docs.ansible.com/ansible/latest/plugins/inventory/toml.html
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/sect-managing_services_with_systemd-unit_files
